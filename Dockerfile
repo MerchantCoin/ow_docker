@@ -47,6 +47,7 @@ RUN chown -R $NAME:$NAME ~/tmp
 
 #install sx and friends
 RUN bash /tmp/install-sx.sh
+RUN ls
 
 #Get Omniwallet - might be relevant
 RUN git clone https://github.com/peterloron/omniwallet.git $DEST
@@ -104,7 +105,11 @@ RUN chmod a+x /root/kickoff.sh
 ADD backend_cron.sh /home/omniwallet/backend_cron.sh
 RUN chmod a+x /home/omniwallet/backend_cron.sh
 RUN echo "*/5 * * * *   omniwallet    /home/omniwallet/backend_cron.sh" >> /etc/crontab
-EXPOSE 80 1088 1091
+EXPOSE 80 443 1088 1091
+ADD 74698b06841e.crt /etc/nginx/74698b06841e.crt
+ADD server.key /etc/nginx/server.key
+ADD gd_bundle-g2-g1.crt /etc/nginx/gd_bundle-g2-g1.crt
+
 #CMD []
 #ENTRYPOINT ["/usr/bin/supervisord"]
 #CMD ["/bin/bash"]
