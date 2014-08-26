@@ -85,6 +85,7 @@ USER root
 #RUN rm /tmp/current.tar.gz
 
 RUN echo "service = \""$OBELISK_SERVER"\"" > /home/$NAME/.sx.cfg
+RUN mkdir /home/$NAME/.bitcoin
 ADD bitcoin.conf /home/$NAME/.bitcoin/bitcoin.conf
 RUN chown -R $NAME:$NAME .bitcoin
 RUN sed -i "s/\/var\/lib\/omniwallet/\/opt\/omniwallet-data/g" $DEST/app.sh
