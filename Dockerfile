@@ -5,7 +5,7 @@ MAINTAINER Peter Loron <peterloron@gmail.com>
 ENV DEST /opt/omniwallet
 ENV MCTDEST /opt/mastercoin-tools
 ENV DATADIR /opt/omniwallet-data
-ENV OBELISK_SERVER tcp://obelisk.bysh.me:9091
+ENV OBELISK_SERVER tcp://merchantcoin.cloudapp.net:9091
 ENV NAME omniwallet
 
 # Load in the sx installer script
@@ -86,6 +86,8 @@ USER root
 #RUN rm /tmp/current.tar.gz
 
 RUN echo "service = \""$OBELISK_SERVER"\"" > /home/$NAME/.sx.cfg
+ADD bitcoin.conf /home/$NAME/.bitcoin/bitcoin.conf
+RUN chown -R $NAME:$NAME .bitcoin
 RUN sed -i "s/\/var\/lib\/omniwallet/\/opt\/omniwallet-data/g" $DEST/app.sh
 RUN sed -i "s/\/var\/lib\/omniwallet/\/opt\/omniwallet-data/g" $DEST/lib/stats_backend.py
 RUN sed -i "s/\/var\/lib\/omniwallet/\/opt\/omniwallet-data/g" $DEST/api/stats.py
