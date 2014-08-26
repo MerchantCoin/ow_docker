@@ -47,7 +47,6 @@ RUN chown -R $NAME:$NAME ~/tmp
 
 #install sx and friends
 RUN bash /tmp/install-sx.sh
-RUN ls
 
 #Get Omniwallet - might be relevant
 RUN git clone https://github.com/peterloron/omniwallet.git $DEST
