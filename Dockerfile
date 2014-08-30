@@ -27,7 +27,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C7A7DA52
 
 # Update and install dependencies
 RUN apt-get -qq update
-RUN apt-get -qqy --force-yes install build-essential openssh-server ack-grep daemontools datadog-agent tmux supervisor vim git curl libssl-dev make lib32z1-dev pkg-config ant autoconf libtool libboost-all-dev pkg-config libcurl4-openssl-dev libleveldb-dev libzmq-dev libconfig++-dev libncurses5-dev
+RUN apt-get -qqy --force-yes install build-essential openssh-server ack-grep daemontools tmux supervisor vim git curl libssl-dev make lib32z1-dev pkg-config ant autoconf libtool libboost-all-dev pkg-config libcurl4-openssl-dev libleveldb-dev libzmq-dev libconfig++-dev libncurses5-dev
 RUN apt-get -qqy install ruby
 RUN gem install sass --no-ri --no-rdoc
 RUN apt-get -qqy install python python-dev python-setuptools python-software-properties python-simplejson python-git python-pip libffi-dev
