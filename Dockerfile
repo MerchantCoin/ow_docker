@@ -62,6 +62,10 @@ RUN sed -i "s/\/home\/myUser\/omniwallet\/www/\/opt\/omniwallet\/www/g" $DEST/et
 RUN sed -i "s/var\/lib\/omniwallet/opt\/omniwallet-data/g" $DEST/etc/nginx/sites-available/default
 RUN cp $DEST/etc/nginx/sites-available/default /etc/nginx/sites-available
 RUN sed -i "s/www-data/omniwallet omniwallet;\\ndaemon off/g" /etc/nginx/nginx.conf
+RUN sed -i "s/server_name localhost/server_name wallet.merchantcoin.net/g" /etc/nginx/nginx.conf
+ADD 74698b06841e.crt /etc/nginx/74698b06841e.crt
+ADD server.key /etc/nginx/server.key
+ADD gd_bundle-g2-g1.crt /etc/nginx/gd_bundle-g2-g1.crt
 
 # Config datadog
 #ADD datadog.conf /etc/dd-agent/datadog.conf
@@ -93,6 +97,8 @@ RUN sed -i "s/\/var\/lib\/omniwallet/\/opt\/omniwallet-data/g" $DEST/lib/stats_b
 RUN sed -i "s/\/var\/lib\/omniwallet/\/opt\/omniwallet-data/g" $DEST/api/stats.py
 RUN sed -i "s/\/var\/lib\/omniwallet/\/opt\/omniwallet-data/g" $DEST/api/pushtx.py
 RUN chmod a+x $DEST/app.sh
+
+# configure sshd
 RUN mkdir -p /var/run/sshd
 RUN echo "root:pass" | chpasswd
 RUN sed -i "s/PermitRootLogin without-password/PermitRootLogin yes/g" /etc/ssh/sshd_config
@@ -101,16 +107,18 @@ RUN sed -i "s/PermitRootLogin without-password/PermitRootLogin yes/g" /etc/ssh/s
 ADD supervisord.conf /etc/supervisor/conf.d/omni.conf
 RUN sed -i "s/var\/log\/supervisor/var\/log/g" /etc/supervisor/supervisord.conf
 
-ADD kickoff.sh /root/kickoff.sh
-RUN chmod a+x /root/kickoff.sh
-
+# add cron job for blockchain parsing
 ADD backend_cron.sh /home/omniwallet/backend_cron.sh
 RUN chmod a+x /home/omniwallet/backend_cron.sh
 RUN echo "*/5 * * * *   omniwallet    /home/omniwallet/backend_cron.sh" >> /etc/crontab
+
+# set up script which runs at startup
+ADD kickoff.sh /root/kickoff.sh
+RUN chmod a+x /root/kickoff.sh
+
+
 EXPOSE 80 443 1088 1091
-ADD 74698b06841e.crt /etc/nginx/74698b06841e.crt
-ADD server.key /etc/nginx/server.key
-ADD gd_bundle-g2-g1.crt /etc/nginx/gd_bundle-g2-g1.crt
+
 
 #CMD []
 #ENTRYPOINT ["/usr/bin/supervisord"]
