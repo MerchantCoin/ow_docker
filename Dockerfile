@@ -22,7 +22,7 @@ RUN apt-get -qq update
 RUN apt-get -qqy install software-properties-common
 RUN add-apt-repository -y ppa:chris-lea/node.js
 RUN add-apt-repository -y ppa:nginx/stable
-RUN add-apt-repository -y 'deb http://apt.datadoghq.com/ unstable main'
+#RUN add-apt-repository -y 'deb http://apt.datadoghq.com/ unstable main'
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C7A7DA52
 
 # Update and install dependencies
@@ -64,8 +64,8 @@ RUN cp $DEST/etc/nginx/sites-available/default /etc/nginx/sites-available
 RUN sed -i "s/www-data/omniwallet omniwallet;\\ndaemon off/g" /etc/nginx/nginx.conf
 
 # Config datadog
-ADD datadog.conf /etc/dd-agent/datadog.conf
-ADD nginx.yaml /etc/dd-agent/conf.d/nginx.yaml
+#ADD datadog.conf /etc/dd-agent/datadog.conf
+#ADD nginx.yaml /etc/dd-agent/conf.d/nginx.yaml
 
 # Run bower and npm to install more deps and configure things
 USER omniwallet
