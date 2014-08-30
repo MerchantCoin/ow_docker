@@ -87,7 +87,7 @@ USER root
 RUN echo "service = \""$OBELISK_SERVER"\"" > /home/$NAME/.sx.cfg
 RUN mkdir /home/$NAME/.bitcoin
 ADD bitcoin.conf /home/$NAME/.bitcoin/bitcoin.conf
-RUN chown -R $NAME:$NAME .bitcoin
+RUN chown -R $NAME:$NAME /home/$NAME/.bitcoin
 RUN sed -i "s/\/var\/lib\/omniwallet/\/opt\/omniwallet-data/g" $DEST/app.sh
 RUN sed -i "s/\/var\/lib\/omniwallet/\/opt\/omniwallet-data/g" $DEST/lib/stats_backend.py
 RUN sed -i "s/\/var\/lib\/omniwallet/\/opt\/omniwallet-data/g" $DEST/api/stats.py
