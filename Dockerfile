@@ -50,8 +50,8 @@ RUN bash /tmp/install-sx.sh
 
 #Get Omniwallet - might be relevant
 RUN mkdir .ssh
-ADD docker.key .ssh/docker.key
-ADD ssh_config .ssh/config
+ADD docker.key /root/.ssh/docker.key
+ADD ssh_config /root/.ssh/config
 RUN git clone git@github.com:MerchantCoin/omniwallet.git $DEST
 RUN chown -R $NAME:$NAME $DEST
 WORKDIR /opt/omniwallet
