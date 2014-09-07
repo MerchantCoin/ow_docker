@@ -49,7 +49,7 @@ RUN chown -R $NAME:$NAME ~/tmp
 RUN bash /tmp/install-sx.sh
 
 #Get Omniwallet - might be relevant
-RUN git clone https://github.com/peterloron/omniwallet.git $DEST
+RUN git clone https://github.com/merchantcoin/omniwallet.git $DEST
 RUN chown -R $NAME:$NAME $DEST
 WORKDIR /opt/omniwallet
 RUN git checkout mc
@@ -116,6 +116,7 @@ RUN echo "*/5 * * * *   omniwallet    /home/omniwallet/backend_cron.sh" >> /etc/
 ADD kickoff.sh /root/kickoff.sh
 RUN chmod a+x /root/kickoff.sh
 
+ADD nginx_offline /root/nginx_offline
 
 EXPOSE 80 443 1088 1091
 
