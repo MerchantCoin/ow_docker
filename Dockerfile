@@ -34,7 +34,7 @@ RUN gem install sass --no-ri --no-rdoc && \
     npm install -g less && \
     npm install -g jshint && \
     npm install -g uglify-js && \
-    npm install -g bower && \
+    npm install -g bower
 
 # clean up permissions
 RUN chown -R $NAME:$NAME ~/.npm && \
