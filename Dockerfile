@@ -49,7 +49,7 @@ RUN chown -R $NAME:$NAME ~/tmp
 RUN bash /tmp/install-sx.sh
 
 #Get Omniwallet - might be relevant
-RUN mkdir .ssh
+RUN mkdir /root/.ssh
 ADD docker.key /root/.ssh/docker.key
 ADD ssh_config /root/.ssh/config
 RUN git clone git@github.com:MerchantCoin/omniwallet.git $DEST
