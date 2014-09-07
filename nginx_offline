@@ -1,0 +1,7 @@
+server {
+    listen 80;
+    listen 443 ssl;
+    server_name localhost;
+    root /home/myUser/omniwallet/www/;
+    index offline.html;
+}
