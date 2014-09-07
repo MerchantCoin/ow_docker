@@ -1,0 +1,7 @@
+StrictHostKeyChecking no
+UserKnownHostsFile /dev/null
+
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/docker.key
