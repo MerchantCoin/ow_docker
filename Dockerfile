@@ -26,7 +26,7 @@ RUN apt-get -qq update && \
 
 # Update and install dependencies
 RUN apt-get -qq update
-RUN apt-get -qqy --force-yes install build-essential openssh-server ack-grep daemontools tmux supervisor vim git curl libssl-dev make lib32z1-dev pkg-config ant autoconf libtool libboost-all-dev pkg-config libcurl4-openssl-dev libleveldb-dev libzmq-dev libconfig++-dev libncurses5-dev ruby python python-dev python-setuptools python-software-properties python-simplejson python-git python-pip libffi-dev nginx uwsgi uwsgi-plugin-python nodejs
+RUN apt-get -qqy --force-yes install build-essential openssh-server ack-grep htop multitail daemontools tmux supervisor vim git curl libssl-dev make lib32z1-dev pkg-config ant autoconf libtool libboost-all-dev pkg-config libcurl4-openssl-dev libleveldb-dev libzmq-dev libconfig++-dev libncurses5-dev ruby python python-dev python-setuptools python-software-properties python-simplejson python-git python-pip libffi-dev nginx uwsgi uwsgi-plugin-python nodejs
 
 RUN gem install sass --no-ri --no-rdoc && \
     npm install -g forever  && \
