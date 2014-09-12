@@ -7,6 +7,7 @@ ENV MCTDEST /opt/mastercoin-tools
 ENV DATADIR /opt/omniwallet-data
 ENV OBELISK_SERVER tcp://merchantcoin.cloudapp.net:9091
 ENV NAME omniwallet
+ENV HOME /opt/omniwallet
 
 # Load in the sx installer script
 ADD install-sx.sh /tmp/
@@ -26,7 +27,7 @@ RUN apt-get -qq update && \
 
 # Update and install dependencies
 RUN apt-get -qq update
-RUN apt-get -qqy --force-yes install build-essential openssh-server ack-grep htop multitail daemontools tmux supervisor vim git curl libssl-dev make lib32z1-dev pkg-config ant autoconf libtool libboost-all-dev pkg-config libcurl4-openssl-dev libleveldb-dev libzmq-dev libconfig++-dev libncurses5-dev ruby python python-dev python-setuptools python-software-properties python-simplejson python-git python-pip libffi-dev nginx uwsgi uwsgi-plugin-python nodejs
+RUN apt-get -qqy --force-yes install build-essential openssh-server ack-grep htop multitail daemontools tmux supervisor vim git curl libssl-dev make lib32z1-dev pkg-config ant autoconf libtool libboost-all-dev pkg-config libcurl4-openssl-dev libleveldb-dev libzmq-dev libconfig++-dev libncurses5-dev ruby python python-dev python-setuptools python-software-properties python-simplejson python-git python-pip libffi-dev nginx nodejs
 
 RUN gem install sass --no-ri --no-rdoc && \
     npm install -g forever  && \
@@ -56,9 +57,13 @@ WORKDIR /opt/omniwallet
 RUN git checkout mc
 
 # Install various deps and generate things
+USER omniwallet
 RUN pip install -r ./requirements.txt
+RUN bower install
+RUN npm install
 
 # Config nginx
+USER root
 RUN cp $DEST/etc/nginx/sites-available/default /etc/nginx/sites-available && \
     sed -i "s/\/home\/myUser\/omniwallet\/www/\/opt\/omniwallet\/www/g" /etc/nginx/sites-available/default && \
     sed -i "s/var\/lib\/omniwallet/opt\/omniwallet-data/g" /etc/nginx/sites-available/default && \
@@ -72,13 +77,6 @@ ADD gd_bundle-g2-g1.crt /etc/nginx/gd_bundle-g2-g1.crt
 #ADD datadog.conf /etc/dd-agent/datadog.conf
 #ADD nginx.yaml /etc/dd-agent/conf.d/nginx.yaml
 
-# Run bower and npm to install more deps and configure things
-USER omniwallet
-ENV HOME /opt/omniwallet
-RUN bower install
-RUN npm install
-USER root
-
 # Install starter data
 #RUN mkdir $DATADIR
 #WORKDIR /tmp
@@ -89,7 +87,14 @@ USER root
 #RUN chown -R $NAME:$NAME $DATADIR
 #RUN rm /tmp/current.tar.gz
 
-RUN echo "service = \""$OBELISK_SERVER"\"" > /home/$NAME/.sx.cfg
+
+# put sx config in several places...seems to not always try to read from the one in /home/omniwallet
+RUN echo "service = \""$OBELISK_SERVER"\"" > /home/$NAME/.sx.cfg && \
+    chown $NAME:$NAME /home/$NAME/.sx.cfg && \
+    echo "service = \""$OBELISK_SERVER"\"" > $DEST/.sx.cfg && \
+    chown $NAME:$NAME /home/$NAME/.sx.cfg && \
+    echo "service = \""$OBELISK_SERVER"\"" > /root/.sx.cfg
+
 RUN mkdir /home/$NAME/.bitcoin
 ADD bitcoin.conf /home/$NAME/.bitcoin/bitcoin.conf
 RUN chown -R $NAME:$NAME /home/$NAME/.bitcoin && \
