@@ -7,7 +7,7 @@ ENV MCTDEST /opt/mastercoin-tools
 ENV DATADIR /opt/omniwallet-data
 ENV OBELISK_SERVER tcp://merchantcoin.cloudapp.net:9091
 ENV NAME omniwallet
-ENV HOME /opt/omniwallet
+ENV HOME /home/omniwallet
 
 # Load in the sx installer script
 ADD install-sx.sh /tmp/
@@ -30,6 +30,15 @@ RUN apt-get -qq update && \
 RUN apt-get -qq update
 RUN apt-get -qqy --force-yes install bitcoind build-essential openssh-server ack-grep htop multitail daemontools tmux supervisor vim git curl libssl-dev make lib32z1-dev pkg-config ant autoconf libtool libboost-all-dev pkg-config libcurl4-openssl-dev libleveldb-dev libzmq-dev libconfig++-dev libncurses5-dev ruby python python-dev python-setuptools python-software-properties python-simplejson python-git python-pip libffi-dev nginx nodejs
 
+#Get Omniwallet - might be relevant
+RUN mkdir /root/.ssh
+ADD docker.key /root/.ssh/docker.key
+ADD ssh_config /root/.ssh/config
+RUN git clone git@github.com:MerchantCoin/omniwallet.git $DEST
+RUN chown -R $NAME:$NAME $DEST
+WORKDIR /opt/omniwallet
+RUN git checkout mc
+
 RUN gem install sass --no-ri --no-rdoc && \
     npm install -g forever  && \
     npm install -g grunt-cli && \
@@ -48,14 +57,7 @@ RUN bash /tmp/install-sx.sh
 # install uwsgi...need to do it after sx as that installs a specific version of zmq
 RUN apt-get -qqy install uwsgi uwsgi-plugin-python nodejs
 
-#Get Omniwallet - might be relevant
-RUN mkdir /root/.ssh
-ADD docker.key /root/.ssh/docker.key
-ADD ssh_config /root/.ssh/config
-RUN git clone git@github.com:MerchantCoin/omniwallet.git $DEST
-RUN chown -R $NAME:$NAME $DEST
-WORKDIR /opt/omniwallet
-RUN git checkout mc
+
 
 # Install various deps and generate things
 USER omniwallet
