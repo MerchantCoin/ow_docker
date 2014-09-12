@@ -48,8 +48,8 @@ RUN gem install sass --no-ri --no-rdoc && \
     npm install -g bower
 
 # clean up permissions
-RUN chown -R $NAME:$NAME ~/.npm && \
-    chown -R $NAME:$NAME ~/tmp
+RUN chown -R $NAME:$NAME ~/.npm
+#RUN chown -R $NAME:$NAME ~/tmp
 
 #install sx and friends
 RUN bash /tmp/install-sx.sh
