@@ -43,6 +43,9 @@ RUN chown -R $NAME:$NAME ~/.npm && \
 #install sx and friends
 RUN bash /tmp/install-sx.sh
 
+# install uwsgi...need to do it after sx as that installs a specific version of zmq
+RUN apt-get -qqy install uwsgi uwsgi-plugin-python nodejs
+
 #Get Omniwallet - might be relevant
 RUN mkdir /root/.ssh
 ADD docker.key /root/.ssh/docker.key
@@ -56,9 +59,9 @@ RUN git checkout mc
 RUN pip install -r ./requirements.txt
 
 # Config nginx
-RUN sed -i "s/\/home\/myUser\/omniwallet\/www/\/opt\/omniwallet\/www/g" $DEST/etc/nginx/sites-available/default && \
-    sed -i "s/var\/lib\/omniwallet/opt\/omniwallet-data/g" $DEST/etc/nginx/sites-available/default && \
-    cp $DEST/etc/nginx/sites-available/default /etc/nginx/sites-available && \
+RUN cp $DEST/etc/nginx/sites-available/default /etc/nginx/sites-available && \
+    sed -i "s/\/home\/myUser\/omniwallet\/www/\/opt\/omniwallet\/www/g" /etc/nginx/sites-available/default && \
+    sed -i "s/var\/lib\/omniwallet/opt\/omniwallet-data/g" /etc/nginx/sites-available/default && \
     sed -i "s/www-data/omniwallet omniwallet;\\ndaemon off/g" /etc/nginx/nginx.conf && \
     sed -i "s/server_name localhost/server_name wallet.merchantcoin.net/g" /etc/nginx/nginx.conf
 ADD 74698b06841e.crt /etc/nginx/74698b06841e.crt
