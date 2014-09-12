@@ -60,8 +60,8 @@ RUN apt-get -qqy install uwsgi uwsgi-plugin-python nodejs
 
 
 # Install various deps and generate things
-USER omniwallet
 RUN pip install -r ./requirements.txt
+USER omniwallet
 RUN bower install
 RUN npm install
 
