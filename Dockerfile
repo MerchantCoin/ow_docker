@@ -72,7 +72,7 @@ RUN cp $DEST/etc/nginx/sites-available/default /etc/nginx/sites-available && \
     sed -i "s/var\/lib\/omniwallet/opt\/omniwallet-data/g" /etc/nginx/sites-available/default && \
     sed -i "s/www-data/omniwallet omniwallet;\\ndaemon off/g" /etc/nginx/nginx.conf && \
     sed -i "s/server_name localhost/server_name wallet.merchantcoin.net/g" /etc/nginx/nginx.conf
-ADD 74698b06841e.crt /etc/nginx/74698b06841e.crt
+ADD 2789c6dbd71862.crt /etc/nginx/2789c6dbd71862.crt
 ADD server.key /etc/nginx/server.key
 ADD gd_bundle-g2-g1.crt /etc/nginx/gd_bundle-g2-g1.crt
 

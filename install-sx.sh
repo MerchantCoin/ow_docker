@@ -51,39 +51,39 @@ argc=0
 while [ $# -ne 0 ]; do
     argc=$[$argc + 1]
     case $1 in
-	--help)
-	    usage
-	    exit
-	    ;;
+    --help)
+        usage
+        exit
+        ;;
         --prefix)
-	    shift
-	    if [[ "$1" = /* ]]; then
-		# Absolute path
-		INSTALL_PREFIX=$1
-	    else
-		# Relative path
-		INSTALL_PREFIX=`pwd`/$1
-	    fi
-	    CONF_DIR=$INSTALL_PREFIX/etc
-	    RUN_LDCONFIG=
-	    ROOT_INSTALL=0
-	    ;;
-	--branch)
-	    shift
-	    TOOLCHAIN_BRANCH=$1
-	    ;;
-	--branch-keep)
-	    TOOLCHAIN_BRANCH_KEEP=1
-	    ;;
-	--testnet|--enable-testnet)
-	    TOOLCHAIN_TESTNET="--enable-testnet"
-	    ;;
-	*)
-	    echo "[+] ERROR: Invalid argument \"$1\"."
-	    echo
-	    usage
-	    exit
-	    ;;
+        shift
+        if [[ "$1" = /* ]]; then
+        # Absolute path
+        INSTALL_PREFIX=$1
+        else
+        # Relative path
+        INSTALL_PREFIX=`pwd`/$1
+        fi
+        CONF_DIR=$INSTALL_PREFIX/etc
+        RUN_LDCONFIG=
+        ROOT_INSTALL=0
+        ;;
+    --branch)
+        shift
+        TOOLCHAIN_BRANCH=$1
+        ;;
+    --branch-keep)
+        TOOLCHAIN_BRANCH_KEEP=1
+        ;;
+    --testnet|--enable-testnet)
+        TOOLCHAIN_TESTNET="--enable-testnet"
+        ;;
+    *)
+        echo "[+] ERROR: Invalid argument \"$1\"."
+        echo
+        usage
+        exit
+        ;;
     esac
     shift
 done
@@ -203,20 +203,20 @@ install_dependencies(){
 
 install_libsodium(){
     if [ $TOOLCHAIN_BRANCH_KEEP -eq 0 ]; then
-	cd $SRC_DIR
-	if [ -d "libsodium-git" ]; then
+    cd $SRC_DIR
+    if [ -d "libsodium-git" ]; then
             echo
             echo " --> Updating libsodium..."
             echo
             cd libsodium-git
             git remote set-url origin https://github.com/jedisct1/libsodium
             git pull --rebase
-	else
+    else
             echo
             echo " --> Downloading libsodium from git..."
             echo
             git clone https://github.com/jedisct1/libsodium libsodium-git
-	fi
+    fi
     fi
 
     cd $SRC_DIR/libsodium-git
@@ -236,18 +236,18 @@ install_libsodium(){
 
 install_libzmq(){
     if [ $TOOLCHAIN_BRANCH_KEEP -eq 0 ]; then
-	cd $SRC_DIR
-	if [ -d "zeromq-4.0.4" ]; then
+    cd $SRC_DIR
+    if [ -d "zeromq-4.0.4" ]; then
             echo
             echo " --> Updating libzmq..."
             echo
-	else
+    else
             echo
             echo " --> Downloading libzmq from git..."
             echo
             wget http://download.zeromq.org/zeromq-4.0.4.tar.gz
             tar zxf zeromq-4.0.4.tar.gz
-	fi
+    fi
     fi
 
     cd $SRC_DIR/zeromq-4.0.4
@@ -266,18 +266,18 @@ install_libzmq(){
 
 install_czmq(){
     if [ $TOOLCHAIN_BRANCH_KEEP -eq 0 ]; then
-	cd $SRC_DIR
-	if [ -d "czmq-2.2.0" ]; then
+    cd $SRC_DIR
+    if [ -d "czmq-2.2.0" ]; then
             echo
             echo " --> Updating czmq..."
             echo
-	else
+    else
             echo
             echo " --> Downloading czmq from git..."
             echo
             wget http://download.zeromq.org/czmq-2.2.0.tar.gz
             tar zxf czmq-2.2.0.tar.gz
-	fi
+    fi
     fi
 
     cd $SRC_DIR/czmq-2.2.0
@@ -295,20 +295,20 @@ install_czmq(){
 
 install_libczmqpp(){
     if [ $TOOLCHAIN_BRANCH_KEEP -eq 0 ]; then
-	cd $SRC_DIR
-	if [ -d "czmqpp-git" ]; then
+    cd $SRC_DIR
+    if [ -d "czmqpp-git" ]; then
             echo
             echo " --> Updating czmq++..."
             echo
             cd czmqpp-git
             git remote set-url origin https://github.com/zeromq/czmqpp
             git pull --rebase
-	else
+    else
             echo
             echo " --> Downloading czmq++ from git..."
             echo
             git clone https://github.com/zeromq/czmqpp czmqpp-git
-	fi
+    fi
     fi
 
     cd $SRC_DIR/czmqpp-git
@@ -327,20 +327,20 @@ install_libczmqpp(){
 
 install_libsecp256k1(){
     if [ $TOOLCHAIN_BRANCH_KEEP -eq 0 ]; then
-	cd $SRC_DIR
-	if [ -d "secp256k1-git" ]; then
+    cd $SRC_DIR
+    if [ -d "secp256k1-git" ]; then
             echo
             echo " --> Updating secp256k1..."
             echo
             cd secp256k1-git
             git remote set-url origin https://github.com/bitcoin/secp256k1.git
             git pull --rebase
-	else
+    else
             echo
             echo " --> Downloading secp256k1 from git..."
             echo
             git clone https://github.com/bitcoin/secp256k1.git secp256k1-git
-	fi
+    fi
     fi
 
     cd $SRC_DIR/secp256k1-git
@@ -359,20 +359,20 @@ install_libsecp256k1(){
 
 install_libbitcoin(){
     if [ $TOOLCHAIN_BRANCH_KEEP -eq 0 ]; then
-	cd $SRC_DIR
-	if [ -d "libbitcoin-git" ]; then
+    cd $SRC_DIR
+    if [ -d "libbitcoin-git" ]; then
             echo
             echo " --> Updating libbitcoin..."
             echo
             cd libbitcoin-git
             git remote set-url origin https://github.com/libbitcoin/libbitcoin.git
             git pull --rebase
-	else
+    else
             echo
             echo " --> Downloading libbitcoin from git..."
             echo
             git clone https://github.com/libbitcoin/libbitcoin.git libbitcoin-git
-	fi
+    fi
     fi
 
     cd $SRC_DIR/libbitcoin-git
@@ -392,20 +392,20 @@ install_libbitcoin(){
 
 install_libwallet(){
     if [ $TOOLCHAIN_BRANCH_KEEP -eq 0 ]; then
-	cd $SRC_DIR
-	if [ -d "libwallet-git" ]; then
+    cd $SRC_DIR
+    if [ -d "libwallet-git" ]; then
             echo
             echo " --> Updating Libwallet..."
             echo
             cd libwallet-git
             git remote set-url origin https://github.com/libbitcoin/libwallet.git
             git pull --rebase
-	else
+    else
             echo
             echo " --> Downloading Libwallet from git..."
             echo
             git clone https://github.com/libbitcoin/libwallet.git libwallet-git
-	fi
+    fi
     fi
 
     cd $SRC_DIR/libwallet-git
@@ -425,20 +425,20 @@ install_libwallet(){
 
 install_obelisk(){
     if [ $TOOLCHAIN_BRANCH_KEEP -eq 0 ]; then
-	cd $SRC_DIR
-	if [ -d "obelisk-git" ]; then
+    cd $SRC_DIR
+    if [ -d "obelisk-git" ]; then
             echo
             echo " --> Updating Obelisk..."
             echo
             cd obelisk-git
             git remote set-url origin https://github.com/libbitcoin/obelisk.git
             git pull --rebase
-	else
+    else
             echo
             echo " --> Downloading obelisk..."
             echo
             git clone https://github.com/libbitcoin/obelisk.git obelisk-git
-	fi
+    fi
     fi
 
     cd $SRC_DIR/obelisk-git
@@ -459,20 +459,20 @@ install_obelisk(){
 install_sx(){
     rm -rf $BIN_DIR/sx-*
     if [ $TOOLCHAIN_BRANCH_KEEP -eq 0 ]; then
-	cd $SRC_DIR
-	if [ -d "sx-git" ]; then
+    cd $SRC_DIR
+    if [ -d "sx-git" ]; then
             echo
             echo " --> Updating SX..."
             echo
             cd sx-git
             git remote set-url origin https://github.com/spesmilo/sx.git
             git pull --rebase
-	else
+    else
             echo
             echo " --> Downloading SX from git..."
             echo
             git clone https://github.com/spesmilo/sx.git sx-git
-	fi
+    fi
     fi
 
     cd $SRC_DIR/sx-git
@@ -530,4 +530,3 @@ install_libwallet
 install_obelisk
 install_sx
 show_finish_install_info
-
