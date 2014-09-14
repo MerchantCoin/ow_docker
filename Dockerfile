@@ -57,8 +57,6 @@ RUN bash /tmp/install-sx.sh
 # install uwsgi...need to do it after sx as that installs a specific version of zmq
 RUN apt-get -qqy install uwsgi uwsgi-plugin-python nodejs
 
-
-
 # Install various deps and generate things
 RUN pip install -r ./requirements.txt
 USER omniwallet

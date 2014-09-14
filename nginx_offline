@@ -2,6 +2,11 @@ server {
     listen 80;
     listen 443 ssl;
     server_name localhost;
-    root /home/myUser/omniwallet/www/;
+    root /opt/omniwallet/www/;
     index offline.html;
+
+    ssl_certificate    2789c6dbd71862.crt;
+    ssl_certificate_key server.key;
+    ssl_protocols       SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers         HIGH:!aNULL:!MD5;
 }
