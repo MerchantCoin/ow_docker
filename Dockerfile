@@ -26,8 +26,11 @@ RUN apt-get -qq update && \
     add-apt-repository -y ppa:bitcoin/bitcoin && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C7A7DA52
 
-# Update and install dependencies
-RUN apt-get -qq update
+# Update OS
+RUN apt-get -qq update && \
+    apt-get dist-upgrade
+
+# Install dependencies
 RUN apt-get -qqy --force-yes install bitcoind build-essential openssh-server ack-grep htop multitail daemontools tmux supervisor vim git curl libssl-dev make lib32z1-dev pkg-config ant autoconf libtool libboost-all-dev pkg-config libcurl4-openssl-dev libleveldb-dev libzmq-dev libconfig++-dev libncurses5-dev ruby python python-dev python-setuptools python-software-properties python-simplejson python-git python-pip libffi-dev nginx nodejs
 
 #Get Omniwallet - might be relevant
